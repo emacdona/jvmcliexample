@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Ed
+      changes:
+        - createTable:
+            tableName: history
+            columns:
+              - column:
+                    name: id
+                    type: int
+                    constraints:
+                        primaryKey: true
+                        primaryKeyName: pk_command_id
+                        nullable: false
+              - column:
+                    name: command
+                    type: varchar(50)
+                    constraints:
+                        nullable: false
+              - column:
+                    name: args
+                    type: varchar(255)
+                    constraints:
+                        nullable: false
+
