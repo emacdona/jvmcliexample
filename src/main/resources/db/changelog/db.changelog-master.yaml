@@ -4,23 +4,66 @@ databaseChangeLog:
       author: Ed
       changes:
         - createTable:
-            tableName: history
+            tableName: COMMAND_INVOCATION
             columns:
               - column:
-                    name: id
-                    type: int
-                    constraints:
-                        primaryKey: true
-                        primaryKeyName: pk_command_id
-                        nullable: false
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_CommandInvocation_id
+                    nullable: false
               - column:
-                    name: command
-                    type: varchar(50)
-                    constraints:
-                        nullable: false
+                  name: command
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: COMMAND_ARGUMENT
+            columns:
               - column:
-                    name: args
-                    type: varchar(255)
-                    constraints:
-                        nullable: false
-
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_CommandArg_id
+                    nullable: false
+              - column:
+                  name: command_invocation_id
+                  type: bigint
+              - column:
+                  name: argument_order
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: arg
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: RESULT_LINE
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_ResultLine_id
+                    nullable: false
+              - column:
+                  name: command_invocation_id
+                  type: bigint
+              - column:
+                  name: line_order
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: line
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
