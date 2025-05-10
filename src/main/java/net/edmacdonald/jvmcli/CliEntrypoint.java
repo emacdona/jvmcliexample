@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Component
 public class CliEntrypoint implements CommandLineRunner {
@@ -25,19 +23,15 @@ public class CliEntrypoint implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        long order = 0;
+        long order = 10;
         CommandInvocation commandInvocation = new CommandInvocation();
         commandInvocation.setCommand("jvmcli");
-        commandInvocation.setArgs(
-                Arrays.asList(args).stream()
-                        .map(arg -> {
-                            CommandArgument commandArgument = new CommandArgument();
-                            commandArgument.setArg(arg);
-                            commandArgument.setArgumentOrder(BigInteger.valueOf(order));
-
-                            return commandArgument;
-                        }).collect(Collectors.toUnmodifiableList())
-        );
+        for (String arg : args) {
+            CommandArgument commandArgument = new CommandArgument();
+            commandArgument.setArg(arg);
+            commandArgument.setArgumentOrder(BigInteger.valueOf(order));
+            commandInvocation.addArg(commandArgument);
+        }
         commandInvocationRepository.save(commandInvocation);
         System.exit(main.getCommandLine().execute(args));
     }

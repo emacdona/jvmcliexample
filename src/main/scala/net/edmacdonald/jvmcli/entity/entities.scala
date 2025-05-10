@@ -3,6 +3,7 @@ package net.edmacdonald.jvmcli.entity
 import jakarta.persistence.*
 
 import java.math.BigInteger
+import java.util
 import scala.beans.BeanProperty
 import scala.compiletime.uninitialized
 
@@ -16,13 +17,18 @@ class CommandInvocation {
   @BeanProperty
   var command: String = uninitialized
 
-  @OneToMany(mappedBy = "commandInvocationId", cascade = Array(CascadeType.ALL))
   @BeanProperty
-  var args: java.util.List[CommandArgument] = uninitialized
+  @OneToMany(mappedBy = "commandInvocation", cascade = Array(CascadeType.ALL), orphanRemoval = true)
+  var args: java.util.List[CommandArgument] = new util.ArrayList()
 
-  @OneToMany(mappedBy = "commandInvocationId", cascade = Array(CascadeType.ALL))
   @BeanProperty
-  var resultLines: java.util.List[ResultLine] = uninitialized
+  @OneToMany(mappedBy = "commandInvocation", cascade = Array(CascadeType.ALL), orphanRemoval = true)
+  var resultLines: java.util.List[ResultLine] = new util.ArrayList()
+
+  def addArg(arg: CommandArgument): Unit = {
+    arg.commandInvocation = this
+    args.add(arg)
+  }
 }
 
 @Entity
@@ -33,7 +39,9 @@ class CommandArgument {
   var id: BigInteger | Null = null
 
   @BeanProperty
-  var commandInvocationId: Int = uninitialized
+  @ManyToOne
+  @JoinColumn(name = "command_invocation_id")
+  var commandInvocation: CommandInvocation = uninitialized
 
   @BeanProperty
   var argumentOrder: BigInteger = uninitialized
@@ -50,7 +58,9 @@ class ResultLine {
   var id: BigInteger | Null = null
 
   @BeanProperty
-  var commandInvocationId: BigInteger = uninitialized
+  @ManyToOne
+  @JoinColumn(name = "command_invocation_id")
+  var commandInvocation: CommandInvocation = uninitialized
 
   @BeanProperty
   var lineOrder: BigInteger = uninitialized
