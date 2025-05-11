@@ -6,6 +6,7 @@ import net.edmacdonald.jvmcli.entity.CommandInvocation;
 import net.edmacdonald.jvmcli.impldetails.runtimehints.LiquibaseRuntimeHints;
 import net.edmacdonald.jvmcli.repository.CommandInvocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,18 +27,20 @@ public class JvmcliApplication {
     public static class CliEntrypoint implements CommandLineRunner {
         private final Main main;
         private final CommandInvocationRepository commandInvocationRepository;
+        private final String applicationName;
 
         @Autowired
-        public CliEntrypoint(Main main, CommandInvocationRepository commandInvocationRepository) {
+        public CliEntrypoint(Main main, CommandInvocationRepository commandInvocationRepository, @Value("${spring.application.name}") String applicationName) {
             this.main = main;
             this.commandInvocationRepository = commandInvocationRepository;
+            this.applicationName = applicationName;
         }
 
         @Override
         public void run(String... args) throws Exception {
             long order = 10;
             CommandInvocation commandInvocation = new CommandInvocation();
-            commandInvocation.setCommand("jvmcli");
+            commandInvocation.setCommand(applicationName);
             for (String arg : args) {
                 CommandArgument commandArgument = new CommandArgument();
                 commandArgument.setArg(arg);
