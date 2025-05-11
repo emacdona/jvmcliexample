@@ -14,7 +14,6 @@ spring:
     web-application-type: none
     banner-mode: off
   datasource:
-    #url: "jdbc:h2:mem:app;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
     url: "jdbc:h2:file:${app.settingsDir}/db/app;AUTO_SERVER=true;DB_CLOSE_DELAY=-1"
     username: "app"
     password: "password"
@@ -22,7 +21,6 @@ spring:
     default-schema: public
     enabled: true
     drop-first: false
-    #change-log: classpath:/db/changelog/db.changelog-master.xml
 
 logging:
   file:
