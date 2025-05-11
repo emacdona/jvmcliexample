@@ -1,4 +1,4 @@
-package net.edmacdonald.jvmcli.runtimehints;
+package net.edmacdonald.jvmcli.impldetails.runtimehints;
 
 import liquibase.changelog.ChangeLogHistoryServiceFactory;
 import liquibase.changelog.FastCheckService;

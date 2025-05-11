@@ -13,7 +13,7 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator class="net.edmacdonald.jvmcli.expressionevaluator.BooleanIdentity">
+            <evaluator class="net.edmacdonald.jvmcli.impldetails.expressionevaluator.BooleanIdentity">
                 <value>${consoleEnabled}</value>
             </evaluator>
             <onMatch>NEUTRAL</onMatch>

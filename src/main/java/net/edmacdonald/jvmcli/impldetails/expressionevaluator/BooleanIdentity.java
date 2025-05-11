@@ -1,4 +1,4 @@
-package net.edmacdonald.jvmcli.expressionevaluator;
+package net.edmacdonald.jvmcli.impldetails.expressionevaluator;
 
 import ch.qos.logback.core.boolex.EvaluationException;
 import ch.qos.logback.core.boolex.EventEvaluatorBase;
