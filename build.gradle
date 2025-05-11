@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     id 'java'
     id 'scala'
@@ -28,6 +30,18 @@ sourceSets {
         java {
             srcDirs = []
         }
+        resources {
+            srcDirs = ['src/main/resources', 'src/main/resources-filtered']
+        }
+    }
+}
+
+processResources {
+    filesMatching('src/main/resources-filtered/**') {
+        filter(ReplaceTokens, tokens: [
+            'key1': 'value1',
+            'key2': 'value2'
+        ])
     }
 }
 

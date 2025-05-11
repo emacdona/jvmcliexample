@@ -9,5 +9,4 @@ import java.math.BigInteger
 
 trait CommandInvocationRepository extends JpaRepository[CommandInvocation, Long], ListCrudRepository[CommandInvocation, Long] {
   def findById(id: BigInteger): CommandInvocation;
-  def findAll(): java.util.List[CommandInvocation];
 }

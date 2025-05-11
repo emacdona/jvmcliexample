@@ -1,20 +1,29 @@
+app:
+  settingsDir: ${user.home}/.jvmcli
+  logging:
+    console:
+      level: INFO
+      enabled: false
+    file:
+      level: DEBUG
+
 spring:
+  application:
+    name: jvmcli
+  main:
+    web-application-type: none
+    banner-mode: off
   datasource:
     #url: "jdbc:h2:mem:app;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
-    url: "jdbc:h2:file:./app;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+    url: "jdbc:h2:file:${app.settingsDir}/db/app;AUTO_SERVER=true;DB_CLOSE_DELAY=-1"
     username: "app"
     password: "password"
+  liquibase:
+    default-schema: public
+    enabled: true
+    drop-first: false
+    #change-log: classpath:/db/changelog/db.changelog-master.xml
 
-# https://www.baeldung.com/sql-logging-spring-boot
-#logging:
-#  level:
-#    org.hibernate:
-#      orm.jdbc.bind: TRACE
-#      type.descriptor.sql.BasicBinder: TRACE
-#      SQL: DEBUG
-
-# https://stackoverflow.com/questions/74862254/how-to-log-sql-statements-with-query-param-values-in-spring-boot-3-hibernate-6
-#logging:
-#  level:
-#    sql: debug
-#    org.hibernate.orm.jdbc.bind: trace
+logging:
+  file:
+    path: ${app.settingsDir}/logs
