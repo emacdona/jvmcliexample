@@ -5,7 +5,7 @@ import picocli.CommandLine;
 import java.util.List;
 
 public abstract class ParentCommand<T> {
-    protected List<T> subCommands;
+    protected List<T> subCommands = List.of();
 
     public final List<T> getSubCommands() {
         return subCommands;

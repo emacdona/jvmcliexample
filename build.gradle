@@ -22,6 +22,10 @@ scala {
     scalaVersion = "3.6.4"
 }
 
+springBoot {
+    mainClass = 'net.edmacdonald.jvmcli.JvmcliApplication'
+}
+
 sourceSets {
     main {
         scala {
