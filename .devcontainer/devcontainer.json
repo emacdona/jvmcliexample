@@ -5,14 +5,17 @@
     "ghcr.io/devcontainers/features/git:1": {}
   },
   "customizations": {
-    "jetbrains" : {
-      "plugins" : [
+    "jetbrains": {
+      "plugins": [
         "org.intellij.scala",
-        "IdeaVIM"
-      ],
-    },
+        "com.github.copilot"
+      ]
+    }
   },
-  "forwardPorts": [8080, 8000],
+  "forwardPorts": [
+    8080,
+    8000
+  ],
   "mounts": [
     "source=gradle-cache,target=/home/vscode/.gradle,type=volume"
   ]
