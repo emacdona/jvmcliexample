@@ -1,13 +1,11 @@
 package net.edmacdonald.jvmcli.history
 
-import org.aspectj.lang.annotation.{Around, Aspect, Before, Pointcut}
-import org.springframework.stereotype.Component
+import org.aspectj.lang.annotation.{Aspect, Before, Pointcut}
 
 @Aspect
-@Component
 class History {
 
-  @Pointcut("execution(public int picocli.CommandLine.execute(String[])) && within(net.edmacdonald.jvmcli..*)")
+  @Pointcut("execution(public * picocli.CommandLine.execute(..))")
   private def commandExecution(): Unit = {}
 
   @Before("net.edmacdonald.jvmcli.history.History.commandExecution()")
