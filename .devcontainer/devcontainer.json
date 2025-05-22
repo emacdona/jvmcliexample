@@ -1,6 +1,6 @@
 {
   "name": "JVM CLI",
-  "image": "ghcr.io/graalvm/graalvm-community:24",
+  "image": "ghcr.io/graalvm/graalvm-community:22",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
   },
