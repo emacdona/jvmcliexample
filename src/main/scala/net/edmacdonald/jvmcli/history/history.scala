@@ -19,7 +19,7 @@ class HistoryAdvice extends ApplicationContextAware {
   @Pointcut("execution(public int picocli.CommandLine.execute(String...))")
   private def commandExecution(): Unit = {}
 
-  @Before("net.edmacdonald.jvmcli.history.HistoryAdvice.commandExecution()")
+  @Before("commandExecution()")
   def recordInvocation(joinPoint: JoinPoint): Unit = {
     val service: HistoryService = getBean(classOf[HistoryService])
     service.recordInvocation(

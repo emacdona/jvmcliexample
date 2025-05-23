@@ -84,3 +84,10 @@ tasks.named('compileJava') {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// Mildly concerned as to why I have to add this... but I periodically get errors like:
+// "Entry net/edmacdonald/jvmcli/repository/CommandInvocationRepository.class is a duplicate but no duplicate handling strategy has been set."
+// if I don't.
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
