@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 
 @SpringBootApplication
-@EnableAspectJAutoProxy
 @ImportRuntimeHints(LiquibaseRuntimeHints.class)
 public class JvmcliApplication {
     public static void main(String[] args) {
