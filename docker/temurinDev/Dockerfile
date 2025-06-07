@@ -1,0 +1,1 @@
+FROM temurin-build:latest

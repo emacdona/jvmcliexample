@@ -1,0 +1,1 @@
+FROM temurin-base:latest

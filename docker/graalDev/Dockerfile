@@ -1,0 +1,1 @@
+FROM graal-build:latest
