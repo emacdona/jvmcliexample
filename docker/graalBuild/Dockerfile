@@ -1,1 +1,0 @@
-FROM graal-base:latest
