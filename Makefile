@@ -1,0 +1,3 @@
+
+nativeExecutable:
+	./gradlew nativeBuild
