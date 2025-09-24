@@ -91,6 +91,17 @@
     \end{frame}
 
     \begin{frame}
+        \frametitle{Gotchas}
+        \begin{itemize}
+            \item{GraalVM does static analysis. It gets rid of things it thinks aren't used.}\pause
+            \item{Doesn't work so well with code only called via reflection.}\pause
+               % https://www.graalvm.org/latest/reference-manual/native-image/metadata/#reflection
+            \item{So test your code. See commands.scala}\pause
+            \item{}\pause
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
         \frametitle{How do you use it?}
         \begin{itemize}
             \item{Package your Application components as Containers.}\pause
