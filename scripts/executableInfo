@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# 'readlink' not portable... you have to do 'readlink -f' on mac. Hence
+# the second line here is what it takes to normalize a path.
+find "${SCRIPT_DIR}"/../build/native/nativeCompile/ -type f  \
+| xargs -I{} bash -c 'cd $(dirname {}); echo $(pwd)/$(basename {})' \
+| xargs -I{} file {}
+
+find "${SCRIPT_DIR}"/../build/native/nativeCompile/ -type f  \
+| xargs -I{} bash -c 'cd $(dirname {}); echo $(pwd)/$(basename {})' \
+| xargs -I{} ls -lh {}
