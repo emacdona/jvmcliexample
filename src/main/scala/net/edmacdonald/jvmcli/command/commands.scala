@@ -1,6 +1,6 @@
 package net.edmacdonald.jvmcli.command
 
-import net.edmacdonald.jvmcli.command.example.Filesys
+import net.edmacdonald.jvmcli.command.filesys.Filesys
 import org.springframework.stereotype.Component
 import picocli.CommandLine
 import picocli.CommandLine.{Command, Parameters}

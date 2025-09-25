@@ -1,4 +1,4 @@
-package net.edmacdonald.jvmcli.command.example;
+package net.edmacdonald.jvmcli.command.filesys;
 
 import net.edmacdonald.jvmcli.command.Main;
 import net.edmacdonald.jvmcli.command.ParentCommand;

@@ -1,4 +1,4 @@
-package net.edmacdonald.jvmcli.command.example;
+package net.edmacdonald.jvmcli.command.filesys;
 
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
