@@ -9,11 +9,11 @@ import picocli.CommandLine;
 import java.util.List;
 
 @Component
-@CommandLine.Command(name = "example", mixinStandardHelpOptions = true, description = "Some example commands.")
-public class Example extends ParentCommand<Example.ExampleSubCommand> implements Main.MainSubCommand {
+@CommandLine.Command(name = "filesys", mixinStandardHelpOptions = true, description = "Commands related to the filesystem.")
+public class Filesys extends ParentCommand<Filesys.ExampleSubCommand> implements Main.MainSubCommand {
 
     @Autowired
-    public Example(List<ExampleSubCommand> subCommands) {
+    public Filesys(List<ExampleSubCommand> subCommands) {
         this.subCommands = subCommands;
     }
 
