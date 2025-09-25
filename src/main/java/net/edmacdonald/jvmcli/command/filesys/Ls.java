@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 @Component
 @CommandLine.Command(name = "ls", mixinStandardHelpOptions = true, description = "List files.")
-public class Ls implements Filesys.ExampleSubCommand, Callable<Integer> {
+public class Ls implements Filesys.FilesysSubCommand, Callable<Integer> {
     @CommandLine.Parameters(index = "0", description = "Directory whose contents you wish to list.")
     private String directory;
 

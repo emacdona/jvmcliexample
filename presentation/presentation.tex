@@ -96,6 +96,7 @@
             \item{GraalVM does static analysis. It gets rid of things it thinks aren't used.}\pause
             \item{Doesn't work so well with code only called via reflection.}\pause
                % https://www.graalvm.org/latest/reference-manual/native-image/metadata/#reflection
+            \item{Caused by: org.graalvm.nativeimage.MissingReflectionRegistrationError: The program tried to reflectively invoke method public void net.edmacdonald.jvmcli.command.ShowHistory.setDirectory(java.lang.String) without it being registered for runtime reflection. Add public void net.edmacdonald.jvmcli.command.ShowHistory.setDirectory(java.lang.String) to the reflection metadata to solve this problem. See https://www.graalvm.org/latest/reference-manual/native-image/metadata/#reflection for help.}
             \item{So test your code. See commands.scala}\pause
             \item{}\pause
         \end{itemize}

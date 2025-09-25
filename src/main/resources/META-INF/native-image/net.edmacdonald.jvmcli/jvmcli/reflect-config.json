@@ -2,5 +2,9 @@
   {
     "name": "net.edmacdonald.jvmcli.command.Find",
     "allDeclaredMethods": true
+  },
+  {
+    "name": "net.edmacdonald.jvmcli.command.ShowHistory",
+    "allDeclaredMethods": true
   }
 ]

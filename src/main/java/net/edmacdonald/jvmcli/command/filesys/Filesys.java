@@ -10,13 +10,13 @@ import java.util.List;
 
 @Component
 @CommandLine.Command(name = "filesys", mixinStandardHelpOptions = true, description = "Commands related to the filesystem.")
-public class Filesys extends ParentCommand<Filesys.ExampleSubCommand> implements Main.MainSubCommand {
+public class Filesys extends ParentCommand<Filesys.FilesysSubCommand> implements Main.MainSubCommand {
 
     @Autowired
-    public Filesys(List<ExampleSubCommand> subCommands) {
+    public Filesys(List<FilesysSubCommand> subCommands) {
         this.subCommands = subCommands;
     }
 
-    public interface ExampleSubCommand {
+    public interface FilesysSubCommand {
     }
 }
