@@ -4,12 +4,17 @@ set -eo pipefail
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 verbose=0
+OPTIND=1
 
 while getopts ":v" opt; do
   case $opt in
     v) verbose=1 ;;
-    \?) echo "Invalid option: -$OPTARG" >&2; usage ;;
     :) echo "Option -$OPTARG requires an argument." >&2; usage ;;
+    \?)
+      # Unknown option: stop parsing and rewind one so we can pass it through
+      OPTIND=$((OPTIND - 1))
+      break
+      ;;
   esac
 done
 shift $((OPTIND - 1))
