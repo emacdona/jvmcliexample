@@ -5,3 +5,5 @@ from    COMMAND_INVOCATION ci
         COMMAND_ARGUMENT ca on ca.COMMAND_INVOCATION_ID = ci.id
 group by ci.id, ci.COMMAND;
 ;
+
+select count(*) from COMMAND_INVOCATION;
