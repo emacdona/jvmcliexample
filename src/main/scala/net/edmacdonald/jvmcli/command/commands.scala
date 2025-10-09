@@ -46,9 +46,9 @@ class ShowHistory
 ) extends HistorySubCommand with Callable[Integer] {
   @Transactional(readOnly = true)
   override def call(): Integer = {
-    commandInvocationRepository.findAll().forEach(ci =>
-      println(f"${ci.command} ${ci.args.asScala.map(ci => ci.arg).mkString(" ")}")
-    )
+    commandInvocationRepository.findAll().asScala.zipWithIndex.foreach{case (ci, idx) =>
+      println(f"${idx + 1}%5d ${ci.command} ${ci.args.asScala.map(ci => ci.arg).mkString(" ")}")
+    }
     return 0
   }
 }
