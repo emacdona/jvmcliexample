@@ -1,11 +1,15 @@
 
-presentation: presentationSlideshow.pdf presentationHandout.pdf
+presentation: presentationSlideshow.pdf presentationSlideshowWithNotes.pdf presentationHandout.pdf
 
 present: presentation
 	pympress presentationSlideshow.pdf
 
+presentationSlideshowWithNotes.pdf: presentationSlideshowWithNotes.tex presentation.tex docker-built logo.png graphics/deployToKube.dia graphics/diagram.dia graphics/simplifiedModel.dia
+	cd graphics && make
+	docker run --rm -i --net=none -v "${CURDIR}":/data k8spreso/latex /bin/sh -c "pdflatex -synctex=1 -interaction=nonstopmode -shell-escape presentationSlideshowWithNotes.tex && pdflatex -synctex=1 -interaction=nonstopmode -shell-escape presentationSlideshowWithNotes.tex"
+
 presentationSlideshow.pdf: presentationSlideshow.tex presentation.tex docker-built logo.png graphics/deployToKube.dia graphics/diagram.dia graphics/simplifiedModel.dia
-	cd graphics && make 
+	cd graphics && make
 	docker run --rm -i --net=none -v "${CURDIR}":/data k8spreso/latex /bin/sh -c "pdflatex -synctex=1 -interaction=nonstopmode -shell-escape presentationSlideshow.tex && pdflatex -synctex=1 -interaction=nonstopmode -shell-escape presentationSlideshow.tex"
 
 presentationHandout.pdf: presentationHandout.tex presentation.tex docker-built logo.png graphics/deployToKube.dia graphics/diagram.dia graphics/simplifiedModel.dia
