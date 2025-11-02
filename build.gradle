@@ -11,6 +11,17 @@ plugins {
     id 'io.freefair.aspectj.post-compile-weaving' version '8.13.1'
 }
 
+// Configure GraalVM Native Image plugin: consume generated config when building native
+// (we'll collect config during tests via -agentlib on the test JVMs below)
+ext.nativeImageConfigDir = layout.buildDirectory.dir('native-image-config').get().asFile.absolutePath
+graalvmNative {
+  binaries {
+    main {
+      buildArgs.add("-H:ConfigurationFileDirectories=${nativeImageConfigDir}")
+    }
+  }
+}
+
 group = 'net.edmacdonald'
 version = '0.0.1-SNAPSHOT'
 
@@ -64,6 +75,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.assertj:assertj-core:3.26.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -83,7 +95,25 @@ tasks.named('compileJava') {
 
 tasks.named('test') {
     useJUnitPlatform()
+
+    // Collect GraalVM Native Image config whilst running tests.
+    // Big incentive here to have your tests cover all your code.
+    jvmArgs "-agentlib:native-image-agent=config-output-dir=${nativeImageConfigDir}"
 }
+
+tasks.withType(Test).configureEach {
+    testLogging {
+        // Show System.out and System.err from tests in the console
+        showStandardStreams = true
+        // Also log which tests passed/skipped/failed and show full stack traces
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat 'full'
+    }
+}
+
+// Ensure native image build compiles after test-generated configs are available
+tasks.named('nativeCompile') { dependsOn 'test' }
+tasks.named('nativeBuild')   { dependsOn 'test' }
 
 // Mildly concerned as to why I have to add this... but I periodically get errors like:
 // "Entry net/edmacdonald/jvmcli/repository/CommandInvocationRepository.class is a duplicate but no duplicate handling strategy has been set."
