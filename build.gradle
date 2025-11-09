@@ -18,6 +18,8 @@ graalvmNative {
   binaries {
     main {
       buildArgs.add("-H:ConfigurationFileDirectories=${nativeImageConfigDir}")
+      // Remove unsupported option for GraalVM 21.0.2
+      // buildArgs.add("-H:+AddAllServiceProviders")
     }
   }
 }
@@ -95,29 +97,51 @@ tasks.named('compileJava') {
 
 tasks.named('test') {
     useJUnitPlatform()
-
-    // Collect GraalVM Native Image config whilst running tests.
-    // Big incentive here to have your tests cover all your code.
-    jvmArgs "-agentlib:native-image-agent=config-output-dir=${nativeImageConfigDir}"
+    // No native-image agent here to keep debugging (JDWP) compatible.
 }
 
-tasks.withType(Test).configureEach {
-    testLogging {
-        // Show System.out and System.err from tests in the console
-        showStandardStreams = true
-        // Also log which tests passed/skipped/failed and show full stack traces
-        events 'passed', 'skipped', 'failed'
-        exceptionFormat 'full'
+// Dedicated task to collect native-image metadata (single fork, stale lock cleanup)
+tasks.register('testAgent', Test) {
+    useJUnitPlatform()
+    description = 'Run tests with GraalVM native-image agent to collect metadata.'
+    group = 'verification'
+
+    // Always collect metadata in this task
+    jvmArgs "-agentlib:native-image-agent=config-output-dir=${nativeImageConfigDir}"
+    maxParallelForks = 1
+
+    // Force GraalVM toolchain for this task so the agent library exists
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = org.gradle.jvm.toolchain.JvmVendorSpec.GRAAL_VM
+    }
+
+    doFirst {
+        def lock = file("${nativeImageConfigDir}/.lock")
+        if (lock.exists()) {
+            logger.lifecycle("native-image-agent: removing stale lock at ${lock}")
+            lock.delete()
+        }
     }
 }
 
-// Ensure native image build compiles after test-generated configs are available
-tasks.named('nativeCompile') { dependsOn 'test' }
-tasks.named('nativeBuild')   { dependsOn 'test' }
+// Ensure native image build compiles after agent-generated configs are available
+// Use testAgent (not test) so normal tests remain debugger-friendly
+tasks.named('nativeCompile') { dependsOn 'testAgent' }
+tasks.named('nativeBuild')   { dependsOn 'testAgent' }
 
 // Mildly concerned as to why I have to add this... but I periodically get errors like:
 // "Entry net/edmacdonald/jvmcli/repository/CommandInvocationRepository.class is a duplicate but no duplicate handling strategy has been set."
 // if I don't.
 tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Print System.out/System.err from all tests (applies to both `test` and `testAgent`)
+tasks.withType(Test).configureEach {
+    testLogging {
+        showStandardStreams = true
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat 'full'
+    }
 }
