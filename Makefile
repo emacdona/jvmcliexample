@@ -11,17 +11,17 @@ clean:
 present:
 	pympress presentation/presentationSlideshowWithNotes.pdf
 
-executableInfo:
-	find build/native/nativeCompile/ -type f  | xargs -I{} file {}
-	@echo
-	@echo
-	find build/native/nativeCompile/ -type f  | xargs -I{} ls -lh {}
-
 define pause_and_run
 	@echo "+ $1"
 	@read -p "Prese Enter to run..."
 	@$1
 endef
+
+d0:
+	$(call pause_and_run, find build/native/nativeCompile/ -type f  | xargs -I{} file {})
+	@echo
+	@echo
+	$(call pause_and_run, find build/native/nativeCompile/ -type f  | xargs -I{} ls -lh {})
 
 d1:
 	$(call pause_and_run, time (scripts/run -h))
