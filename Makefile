@@ -1,4 +1,7 @@
 
+.ONESHELL:
+SHELL := /bin/bash
+
 nativeExecutable:
 	./gradlew nativeBuild
 
@@ -20,12 +23,6 @@ define pause_and_run
 	@$1
 endef
 
-#d1:
-#	(time scripts/run) || true
-#
-#d2:
-#	time (scripts/run 2>/dev/null; echo $$?)
-#
 d1:
 	$(call pause_and_run, time (scripts/run -h))
 
@@ -33,13 +30,16 @@ d2:
 	$(call pause_and_run, time (scripts/run filesys ls . | head -n 10))
 
 d3:
-	$(call pause_and_run, time (scripts/run filesys find . | head -n 10))
+	$(call pause_and_run, time (scripts/run filesys ls -l . | head -n 10))
 
 d4:
-	$(call pause_and_run, time (scripts/run -v filesys ls .))
+	$(call pause_and_run, time (scripts/run filesys find . | head -n 10))
 
 d5:
-	$(call pause_and_run, time (scripts/run foobar fizzbuzz baz))
+	$(call pause_and_run, time (scripts/run -v filesys ls .))
 
 d6:
+	$(call pause_and_run, time (scripts/run foobar fizzbuzz baz))
+
+d7:
 	$(call pause_and_run, time (scripts/run history show | perl -ne 'if($$. <= 5){print STDERR $$_} else {print}' | tail -n 5))
